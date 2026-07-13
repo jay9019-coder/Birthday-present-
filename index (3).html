@@ -1,0 +1,668 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>✨ Happy 15th Birthday - YASH 💮</title>
+  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/lucide@0.263.0/dist/umd/lucide.min.js"></script>
+  <style>
+    :root {
+      --navy-dark: #020c1b;
+      --navy: #0a192f;
+      --navy-light: #112240;
+      --silver: #ccd6f6;
+      --white: #e6f1ff;
+      --glass-bg: rgba(17, 34, 64, 0.6);
+      --glass-border: rgba(204, 214, 246, 0.2);
+    }
+    
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    
+    body { 
+      font-family: 'Poppins', sans-serif; 
+      background: var(--navy-dark); 
+      color: var(--white); 
+      overflow: hidden; 
+      user-select: none;
+      -webkit-user-select: none;
+      cursor: pointer;
+    }
+    
+    .font-vibes { font-family: 'Great Vibes', cursive; }
+    
+    .glass { 
+      background: var(--glass-bg); 
+      backdrop-filter: blur(12px); 
+      border: 1px solid var(--glass-border); 
+      border-radius: 20px; 
+    }
+    
+    .neon-text { text-shadow: 0 0 10px rgba(230, 241, 255, 0.5), 0 0 20px rgba(204, 214, 246, 0.3); }
+    .neon-glow { box-shadow: 0 0 20px rgba(10, 25, 47, 0.8), inset 0 0 15px rgba(255,255,255,0.05); }
+    
+    .page { 
+      position: absolute; inset: 0; 
+      display: flex; align-items: center; justify-content: center; flex-direction: column; 
+      opacity: 0; pointer-events: none; 
+      transition: opacity 0.8s ease, transform 0.8s ease; 
+      transform: scale(0.95); padding: 20px; 
+      z-index: 10;
+    }
+    
+    .page.active { opacity: 1; pointer-events: all; transform: scale(1); }
+    
+    canvas#particles { position: fixed; inset: 0; z-index: 1; pointer-events: none; }
+    
+    .page-dots { position: fixed; right: 15px; top: 50%; transform: translateY(-50%); z-index: 50; display: flex; flex-direction: column; gap: 8px; }
+    .page-dots .dot { width: 10px; height: 10px; border-radius: 50%; background: rgba(255,255,255,0.2); cursor: pointer; transition: all 0.3s; }
+    .page-dots .dot.active { background: var(--white); box-shadow: 0 0 10px var(--white); transform: scale(1.4); }
+    
+    .music-btn { position: fixed; bottom: 20px; right: 20px; z-index: 50; width: 45px; height: 45px; border-radius: 50%; background: var(--glass-bg); backdrop-filter: blur(10px); border: 1px solid var(--glass-border); display: flex; align-items: center; justify-content: center; cursor: pointer; color: var(--white); }
+    
+    .progress-bar { height: 3px; background: linear-gradient(90deg, var(--navy-light), var(--white)); border-radius: 2px; transition: width 0.3s; }
+    
+    @keyframes pulse { 0%,100% { transform: scale(1); } 50% { transform: scale(1.1); } }
+    @keyframes typing { from { width: 0; } to { width: 100%; } }
+    @keyframes blink { 50% { border-color: transparent; } }
+    
+    .typing-anim { overflow: hidden; white-space: nowrap; border-right: 2px solid var(--white); animation: typing 3.5s steps(40) 1s forwards, blink 0.7s step-end infinite; width: 0; }
+    
+    .flip-card { perspective: 1000px; cursor: pointer; height: 70px; }
+    .flip-card-inner { transition: transform 0.6s; transform-style: preserve-3d; position: relative; width: 100%; height: 100%; }
+    .flip-card.flipped .flip-card-inner { transform: rotateY(180deg); }
+    .flip-card-front, .flip-card-back { position: absolute; inset: 0; backface-visibility: hidden; border-radius: 16px; display: flex; align-items: center; justify-content: center; padding: 15px; background: var(--navy-light); border: 1px solid var(--glass-border); }
+    .flip-card-back { transform: rotateY(180deg); }
+    
+    .candle { width: 6px; height: 30px; background: linear-gradient(to top, #fff, #bdc3c7); border-radius: 3px 3px 0 0; position: relative; }
+    .candle::before { content: ''; position: absolute; top: -12px; left: 50%; transform: translateX(-50%); width: 8px; height: 12px; background: radial-gradient(circle, #fff, #87ceeb); border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%; animation: flicker 0.3s infinite alternate; }
+    .candle.blown::before { display: none; }
+    @keyframes flicker { 0% { transform: translateX(-50%) scale(1) rotate(-2deg); } 100% { transform: translateX(-50%) scale(1.1) rotate(2deg); } }
+    
+    .confetti-piece { position: fixed; width: 10px; height: 10px; z-index: 100; animation: confettiFall 3s linear forwards; }
+    @keyframes confettiFall { 0% { transform: translateY(-100vh) rotate(0deg); opacity: 1; } 100% { transform: translateY(100vh) rotate(720deg); opacity: 0; } }
+
+    .bg-gradient-natural { background: radial-gradient(ellipse at bottom, #0a192f 0%, #020c1b 100%); position: absolute; inset: 0; z-index: 0; }
+
+    /* --- GAME SPECIFIC ANIMATIONS --- */
+    @keyframes fallAndSway {
+      0% { transform: translateY(-30px) rotate(0deg); opacity: 0; }
+      10% { opacity: 1; }
+      100% { transform: translateY(350px) rotate(360deg); opacity: 0; }
+    }
+    
+    .falling-rose {
+      position: absolute;
+      font-size: 26px;
+      animation: fallAndSway 2.2s linear forwards;
+      z-index: 10;
+      filter: drop-shadow(0 0 5px rgba(255,255,255,0.8));
+    }
+    
+    .score-popup {
+      position: absolute;
+      color: #a7f3d0;
+      font-weight: bold;
+      font-size: 22px;
+      pointer-events: none;
+      animation: floatUp 0.8s ease-out forwards;
+      z-index: 20;
+      text-shadow: 0 0 10px rgba(0, 255, 100, 0.8);
+    }
+    
+    @keyframes floatUp {
+      0% { transform: translateY(0) scale(1); opacity: 1; }
+      100% { transform: translateY(-40px) scale(1.5); opacity: 0; }
+    }
+
+    .catcher-catch-anim {
+      animation: bounceCatch 0.3s ease;
+    }
+    
+    @keyframes bounceCatch {
+      0%, 100% { transform: translateX(-50%) scale(1); filter: brightness(1); }
+      50% { transform: translateX(-50%) scale(1.3); filter: brightness(1.5); drop-shadow: 0 0 15px white; }
+    }
+
+    #catcher {
+      transition: left 0.1s ease-out, transform 0.2s ease-out;
+    }
+  </style>
+</head>
+<body>
+  
+  <canvas id="particles"></canvas>
+  <div class="bg-gradient-natural"></div>
+  
+  <nav class="page-dots" id="page-dots"></nav>
+  
+  <button class="music-btn" id="music-btn">
+    <i data-lucide="volume-2" style="width:20px;height:20px;"></i>
+  </button>
+
+  <section class="page active" id="page-0">
+    <div class="text-center z-10">
+      <div style="font-size:60px; animation: pulse 1.5s infinite;">💮</div>
+      <h2 class="text-2xl font-vibes mt-4 text-gray-300">Loading Memories...</h2>
+      <div class="w-48 h-1 bg-gray-800 rounded mt-6 mx-auto overflow-hidden">
+        <div class="progress-bar" id="load-bar" style="width:0%"></div>
+      </div>
+      <p class="mt-3 text-sm text-gray-400" id="load-percent">0%</p>
+    </div>
+  </section>
+
+  <section class="page" id="page-1">
+    <div class="text-center max-w-lg z-10">
+      <h1 class="text-3xl md:text-5xl font-vibes text-gray-200">Happy 15th Birthday</h1>
+      <h2 class="text-6xl md:text-8xl font-vibes mt-4 neon-text text-white">Yash</h2>
+      <p class="mt-6 text-gray-400 text-lg italic typing-anim">Welcome to your special day...</p>
+    </div>
+  </section>
+
+  <section class="page" id="page-2">
+    <div class="glass p-8 max-w-md w-full neon-glow z-10">
+      <h2 class="text-3xl font-vibes text-center mb-6 text-white">Your Journey</h2>
+      <div class="space-y-5" id="timeline-container">
+        <div class="flex items-center gap-4 opacity-0 timeline-item" style="transition: all 0.5s; transform: translateX(-20px);">
+          <span class="w-12 h-12 rounded-full bg-blue-900/30 flex items-center justify-center text-lg font-bold border border-blue-400 text-gray-300">'11</span>
+          <span class="text-gray-300 text-sm">✨ Born into this world (14 July)</span>
+        </div>
+        <div class="flex items-center gap-4 opacity-0 timeline-item" style="transition: all 0.5s; transform: translateX(-20px);">
+          <span class="w-12 h-12 rounded-full bg-blue-900/30 flex items-center justify-center text-lg font-bold border border-blue-400 text-gray-300">'16</span>
+          <span class="text-gray-300 text-sm">💮 The first adventures began</span>
+        </div>
+        <div class="flex items-center gap-4 opacity-0 timeline-item" style="transition: all 0.5s; transform: translateX(-20px);">
+          <span class="w-12 h-12 rounded-full bg-blue-900/30 flex items-center justify-center text-lg font-bold border border-blue-400 text-gray-300">'21</span>
+          <span class="text-gray-300 text-sm">⭐ Becoming a shining star</span>
+        </div>
+        <div class="flex items-center gap-4 opacity-0 timeline-item" style="transition: all 0.5s; transform: translateX(-20px);">
+          <span class="w-12 h-12 rounded-full bg-blue-900/80 flex items-center justify-center text-lg font-bold border border-white text-white">15</span>
+          <span class="text-white font-bold">👑 Fantastic 15 — Unforgettable!</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="page" id="page-3">
+    <div class="glass p-8 max-w-lg w-full neon-glow z-10">
+      <h2 class="text-3xl font-vibes text-center mb-4 text-white">For You, Yash</h2>
+      <div class="text-gray-300 leading-relaxed space-y-4 text-sm text-center">
+        <p>Fifteen years of being the one and only Yash. You are a legend in your own story, bringing light and energy in the best way possible.</p>
+        <p>15 years of you being in this world, and every single day has been brighter because of it. Your kindness and spirit are as calming and beautiful as a white rose in the night.</p>
+        <p>May this new chapter bring you everything your heart desires — success, peace, adventures, and endless memories. Stay exactly as amazing as you are.</p>
+        <p class="font-vibes text-2xl text-center mt-6 text-white">With all my heart, Happy Birthday! 💮</p>
+      </div>
+    </div>
+  </section>
+  <section class="page" id="page-4">
+    <div class="w-full max-w-2xl z-10">
+      <h2 class="text-3xl font-vibes text-center mb-6 text-white">Why You Are Amazing</h2>
+      <div class="grid grid-cols-3 md:grid-cols-4 gap-3" id="reasons-grid"></div>
+    </div>
+  </section>
+
+  <section class="page" id="page-5">
+    <div class="text-center w-full max-w-md z-10 glass p-6">
+      <h2 class="text-3xl font-vibes mb-2 text-white">Catch the White Roses</h2>
+      <p class="text-gray-300 mb-4 text-sm">Score: <span id="game-score" class="font-bold text-white text-xl">0</span></p>
+      <div class="relative w-full h-64 rounded-xl overflow-hidden border-2 border-blue-400 bg-gray-900/60 shadow-[0_0_15px_rgba(59,130,246,0.3)]" id="game-area">
+        <div class="absolute bottom-2 left-1/2 -translate-x-1/2 w-16 h-16 text-4xl flex items-center justify-center z-20" id="catcher">🧺</div>
+      </div>
+      <button class="mt-6 px-6 py-2 rounded-full glass neon-glow text-white hover:bg-white hover:text-black transition transform hover:scale-105" id="game-start-btn">Start Game</button>
+    </div>
+  </section>
+
+  <section class="page" id="page-6">
+    <div class="text-center z-10 glass p-10">
+      <h2 class="text-4xl font-vibes mb-8 text-white">Make a Wish</h2>
+      <div class="relative inline-block mt-4" id="cake-area">
+        <div class="w-48 h-32 mx-auto rounded-t-full" style="background: linear-gradient(to top, var(--navy-light), #2a4365); border: 2px solid rgba(255,255,255,0.1);"></div>
+        <div class="w-56 h-8 mx-auto rounded-b-lg" style="background: #0f172a; border: 2px solid rgba(255,255,255,0.1);"></div>
+        <div class="absolute top-2 left-1/2 -translate-x-1/2 flex gap-3" id="candles"></div>
+      </div>
+      <br>
+      <button class="mt-10 px-8 py-3 rounded-full glass neon-glow text-white font-semibold hover:scale-105 transition" id="blow-btn">Blow Candles 🎂</button>
+    </div>
+  </section>
+
+  <section class="page" id="page-7">
+    <div class="text-center z-10 relative glass p-12">
+      <h1 class="text-4xl md:text-5xl font-vibes text-gray-300">Enjoy your</h1>
+      <h2 class="text-5xl md:text-7xl font-vibes mt-4 text-white neon-text">15th Birthday</h2>
+      <p class="mt-6 text-gray-400 text-sm max-w-md mx-auto italic">Never stop being the incredible person you are. The world is lucky to have you.</p>
+      <div class="mt-8 text-5xl" style="animation: pulse 2s infinite;">💮</div>
+    </div>
+  </section>
+
+  <div id="final-popup" class="fixed inset-0 bg-black/70 flex items-center justify-center z-[100] opacity-0 pointer-events-none transition-all duration-500">
+    <div class="glass p-8 max-w-sm mx-4 text-center transform scale-90 transition-all duration-500 shadow-2xl border border-white/10">
+      <div class="text-4xl mb-3 animate-bounce">🎁</div>
+      <h3 class="text-2xl font-vibes text-white mb-2 font-bold">A Special Surprise!</h3>
+      <p class="text-sm text-gray-300 leading-relaxed mb-6">
+        Yash, you deserve all the happiness in the world. Keep shining bright, chasing your big dreams, and spreading endless smiles! 💮✨
+      </p>
+      <button id="close-popup-btn" class="px-6 py-2 rounded-full bg-white text-black font-semibold hover:bg-gray-200 transition active:scale-95 text-sm">
+        Thank You ❤️
+      </button>
+    </div>
+  </div>
+
+  <script>
+    (function() {
+      const TOTAL_PAGES = 8;
+      let currentPage = 0;
+      let musicPlaying = false;
+      let audioCtx = null;
+
+      // --- INSTANT WHITE ROSE TOUCH/CLICK EFFECT ---
+      function createInstantRose(x, y) {
+        const rose = document.createElement('div');
+        rose.textContent = '💮';
+        rose.style.position = 'fixed';
+        rose.style.left = (x - 15) + 'px';
+        rose.style.top = (y - 15) + 'px';
+        rose.style.fontSize = '30px';
+        rose.style.pointerEvents = 'none';
+        rose.style.zIndex = '99999';
+        rose.style.transition = 'opacity 0.15s ease-out, transform 0.15s ease-out';
+        rose.style.transform = 'scale(0.5)';
+        document.body.appendChild(rose);
+
+        requestAnimationFrame(() => {
+          rose.style.transform = 'scale(1.2)';
+        });
+
+        setTimeout(() => {
+          rose.style.opacity = '0';
+          rose.style.transform = 'scale(1.5)';
+          setTimeout(() => rose.remove(), 150);
+        }, 100);
+      }
+
+      // --- SMART TOUCH/CLICK NAVIGATION ---
+      let touchStartX = 0;
+      let touchStartY = 0;
+      let isScrollingGesture = false;
+
+      document.addEventListener('touchstart', e => {
+        touchStartX = e.touches[0].clientX;
+        touchStartY = e.touches[0].clientY;
+        isScrollingGesture = false;
+        
+        if(e.touches.length > 0) {
+          createInstantRose(e.touches[0].clientX, e.touches[0].clientY);
+        }
+      }, { passive: true });
+
+      document.addEventListener('touchmove', e => {
+        const moveX = e.touches[0].clientX;
+        const moveY = e.touches[0].clientY;
+        if (Math.abs(moveX - touchStartX) > 10 || Math.abs(moveY - touchStartY) > 10) {
+          isScrollingGesture = true;
+        }
+      }, { passive: true });
+
+      function handlePageAdvance(e) {
+        if (currentPage === 0) return;
+        
+        if (e.target.closest('button, .dot, .flip-card, #game-area, #music-btn, .candle, #candles, #final-popup')) {
+          return;
+        }
+
+        let nextPage = currentPage + 1;
+        if (nextPage >= TOTAL_PAGES) nextPage = 1;
+        goToPage(nextPage);
+      }
+
+      document.addEventListener('touchend', e => {
+        if (!isScrollingGesture) {
+          handlePageAdvance(e);
+        }
+      }, { passive: true });
+
+      document.addEventListener('click', e => {
+        createInstantRose(e.clientX, e.clientY);
+        if (e.pointerType === 'touch') return;
+        handlePageAdvance(e);
+      });
+
+      const dotsContainer = document.getElementById('page-dots');
+      for (let i = 0; i < TOTAL_PAGES; i++) {
+        const d = document.createElement('div');
+        d.className = 'dot' + (i === 0 ? ' active' : '');
+        d.addEventListener('click', (e) => {
+          e.stopPropagation();
+          goToPage(i);
+        });
+        dotsContainer.appendChild(d);
+      }
+
+      function goToPage(idx) {
+        if (idx < 0 || idx >= TOTAL_PAGES || idx === currentPage) return;
+        document.getElementById('page-' + currentPage).classList.remove('active');
+        currentPage = idx;
+        document.getElementById('page-' + currentPage).classList.add('active');
+        document.querySelectorAll('.page-dots .dot').forEach((d, i) => d.classList.toggle('active', i === currentPage));
+        onPageEnter(currentPage);
+      }
+
+      document.addEventListener('keydown', e => {
+        if (e.key === 'ArrowRight' || e.key === 'ArrowDown') goToPage(currentPage + 1);
+        if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') goToPage(currentPage - 1);
+      });
+
+      let loadProgress = 0;
+      const loadInterval = setInterval(() => {
+        loadProgress += Math.random() * 25;
+        if (loadProgress >= 100) {
+          loadProgress = 100;
+          clearInterval(loadInterval);
+          setTimeout(() => goToPage(1), 600);
+        }
+        document.getElementById('load-bar').style.width = loadProgress + '%';
+        document.getElementById('load-percent').textContent = Math.floor(loadProgress) + '%';
+      }, 150);
+
+      document.getElementById('music-btn').addEventListener('click', (e) => {
+        e.stopPropagation();
+        toggleMusic();
+      });
+      
+      function toggleMusic() {
+        if (!audioCtx) {
+          audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+          playTone();
+          musicPlaying = true;
+        } else if (musicPlaying) {
+          audioCtx.suspend(); musicPlaying = false;
+        } else {
+          audioCtx.resume(); musicPlaying = true;
+        }
+      }
+      
+      function playTone() {
+        if (!audioCtx) return;
+        const notes = [261.63, 329.63, 392, 440, 392, 329.63];
+        let t = audioCtx.currentTime;
+        notes.forEach((freq, i) => {
+          const osc = audioCtx.createOscillator();
+          const gain = audioCtx.createGain();
+          osc.type = 'sine';
+          osc.frequency.value = freq;
+          gain.gain.setValueAtTime(0.04, t + i * 0.6);
+          gain.gain.exponentialRampToValueAtTime(0.001, t + i * 0.6 + 0.55);
+          osc.connect(gain).connect(audioCtx.destination);
+          osc.start(t + i * 0.6);
+          osc.stop(t + i * 0.6 + 0.6);
+        });
+        setTimeout(() => { if (musicPlaying) playTone(); }, 3600);
+      }
+
+      const canvas = document.getElementById('particles');
+      const ctx = canvas.getContext('2d');
+      function resize(){ canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+      resize(); window.addEventListener('resize', resize);
+
+      let particles = [];
+      let currentType = 'mist';
+
+      function makeParticles(type){
+        particles = [];
+        const count = window.innerWidth < 600 ? 25 : 50;
+        for(let i=0; i<count; i++){
+          if(type === 'mist'){
+            particles.push({
+              x: Math.random()*window.innerWidth, y: window.innerHeight*0.3+Math.random()*window.innerHeight*0.7,
+              r: 40+Math.random()*80, spX: 0.1+Math.random()*0.2, spY: 0, alpha: 0.01+Math.random()*0.03
+            });
+          } else if(type === 'fireflies') {
+            particles.push({
+              x: Math.random()*window.innerWidth, y: Math.random()*window.innerHeight,
+              r: 1+Math.random()*2.5, spX:(Math.random()-0.5)*0.3, spY:(Math.random()-0.5)*0.3,
+              phase: Math.random()*Math.PI*2, color:'rgba(230,241,255,'
+            });
+          }
+        }
+      }
+
+      function drawCanvas(){
+        ctx.clearRect(0,0,canvas.width,canvas.height);
+        if(currentType === 'mist'){
+          particles.forEach(p => {
+            p.x += p.spX;
+            if(p.x - p.r > window.innerWidth) p.x = -p.r;
+            const grad = ctx.createRadialGradient(p.x,p.y,0,p.x,p.y,p.r);
+            grad.addColorStop(0, `rgba(200,220,255,${p.alpha})`);
+            grad.addColorStop(1, 'rgba(255,255,255,0)');
+            ctx.fillStyle = grad;
+            ctx.beginPath(); ctx.arc(p.x,p.y,p.r,0,Math.PI*2); ctx.fill();
+          });
+        } else if (currentType === 'fireflies') {
+          particles.forEach(p => {
+            p.x += p.spX; p.y += p.spY; p.phase += 0.03;
+            if(p.x<0)p.x=window.innerWidth; if(p.x>window.innerWidth)p.x=0;
+            if(p.y<0)p.y=window.innerHeight; if(p.y>window.innerHeight)p.y=0;
+            const alpha = 0.2+0.6*Math.abs(Math.sin(p.phase));
+            ctx.beginPath();
+            ctx.fillStyle = p.color+alpha+')';
+            ctx.shadowBlur = 10; ctx.shadowColor = 'rgba(255,255,255,0.8)';
+            ctx.arc(p.x,p.y,p.r,0,Math.PI*2); ctx.fill();
+            ctx.shadowBlur = 0;
+          });
+        }
+        requestAnimationFrame(drawCanvas);
+      }
+      makeParticles('mist');
+      drawCanvas();
+
+      function onPageEnter(idx) {
+        if (!musicPlaying && idx === 1) toggleMusic();
+        
+        if(idx === 0 || idx === 1 || idx === 3 || idx === 7) {
+          if(currentType !== 'fireflies') { currentType = 'fireflies'; makeParticles('fireflies'); }
+        } else {
+          if(currentType !== 'mist') { currentType = 'mist'; makeParticles('mist'); }
+        }
+
+        if (idx === 2) {
+          document.querySelectorAll('.timeline-item').forEach((el, i) => {
+            setTimeout(() => { 
+              el.style.opacity = '1'; 
+              el.style.transform = 'translateX(0)'; 
+            }, i * 350);
+          });
+        }
+        
+        if (idx === 7) { 
+          spawnConfetti(); 
+          setTimeout(() => {
+            const popup = document.getElementById('final-popup');
+            if(popup) {
+              popup.classList.remove('opacity-0', 'pointer-events-none');
+              const innerBox = popup.querySelector('.glass');
+              if(innerBox) {
+                innerBox.classList.remove('scale-90');
+                innerBox.classList.add('scale-100');
+              }
+            }
+          }, 1500);
+        }
+      }
+
+      document.getElementById('close-popup-btn').addEventListener('click', (e) => {
+        e.stopPropagation();
+        const popup = document.getElementById('final-popup');
+        if(popup) {
+          popup.classList.add('opacity-0', 'pointer-events-none');
+          const innerBox = popup.querySelector('.glass');
+          if(innerBox) {
+            innerBox.classList.remove('scale-100');
+            innerBox.classList.add('scale-90');
+          }
+        }
+      });
+
+      const reasons = ["Your kindness", "Your energy", "Your creativity", "You are brave", "Your smile", "True friend", "Pure gold", "Unforgettable"];
+      const reasonsGrid = document.getElementById('reasons-grid');
+      reasons.forEach(r => {
+        const card = document.createElement('div');
+        card.className = 'flip-card';
+        card.innerHTML = `<div class="flip-card-inner"><div class="flip-card-front text-2xl">💮</div><div class="flip-card-back text-sm text-center">${r}</div></div>`;
+        card.addEventListener('click', (e) => {
+          e.stopPropagation();
+          card.classList.toggle('flipped');
+        });
+        reasonsGrid.appendChild(card);
+      });
+
+      // --- IMPROVED MINI-GAME LOGIC ---
+      let gameScore = 0, gameRunning = false, spawnInterval, collisionLoopId;
+      let activeItems = [];
+      const gameArea = document.getElementById('game-area');
+      const catcher = document.getElementById('catcher');
+      const scoreDisplay = document.getElementById('game-score');
+      
+      document.getElementById('game-start-btn').addEventListener('click', (e) => {
+        e.stopPropagation();
+        if(gameRunning) return; // Prevent multiple clicks
+        
+        // Reset Game State
+        gameScore = 0; 
+        scoreDisplay.textContent = '0';
+        scoreDisplay.style.color = "var(--white)";
+        gameRunning = true;
+        activeItems.forEach(item => item.remove());
+        activeItems = [];
+        
+        // Start Loops
+        clearInterval(spawnInterval);
+        cancelAnimationFrame(collisionLoopId);
+        
+        spawnInterval = setInterval(spawnItem, 500); // Faster spawn rate for fun
+        collisionLoopId = requestAnimationFrame(checkCollisions);
+        
+        // End Game Timer
+        setTimeout(() => { 
+          gameRunning = false; 
+          clearInterval(spawnInterval); 
+          cancelAnimationFrame(collisionLoopId);
+          scoreDisplay.style.color = "#4ade80"; // Turn score green on finish
+          spawnConfetti(); 
+        }, 15000);
+      });
+
+      // Smooth Catcher Movement
+      let lastX = 50;
+      gameArea.addEventListener('mousemove', e => moveCatcher(e.clientX));
+      gameArea.addEventListener('touchmove', e => moveCatcher(e.touches[0].clientX), { passive: true });
+      
+      function moveCatcher(clientX) {
+        const rect = gameArea.getBoundingClientRect();
+        let x = ((clientX - rect.left) / rect.width) * 100;
+        x = Math.max(0, Math.min(84, x - 8));
+        
+        // Add dynamic tilt effect based on movement direction
+        let tilt = x > lastX ? 15 : (x < lastX ? -15 : 0);
+        catcher.style.left = x + '%';
+        catcher.style.transform = `translateX(-50%) rotate(${tilt}deg)`;
+        
+        lastX = x;
+        // Reset tilt quickly
+        setTimeout(() => { catcher.style.transform = `translateX(-50%) rotate(0deg)`; }, 150);
+      }
+
+      function spawnItem() {
+        if (!gameRunning) return;
+        const item = document.createElement('div');
+        item.textContent = '💮';
+        item.className = 'falling-rose';
+        item.style.left = Math.random() * 85 + '%'; 
+        gameArea.appendChild(item);
+        activeItems.push(item);
+        
+        // Auto remove from DOM after animation completes to keep memory clean
+        setTimeout(() => {
+          if(gameArea.contains(item)) {
+            item.remove();
+            activeItems = activeItems.filter(i => i !== item);
+          }
+        }, 2200); 
+      }
+
+      function checkCollisions() {
+        if (!gameRunning) return;
+        
+        const cRect = catcher.getBoundingClientRect();
+        const areaRect = gameArea.getBoundingClientRect();
+        
+        for (let i = activeItems.length - 1; i >= 0; i--) {
+          const item = activeItems[i];
+          const iRect = item.getBoundingClientRect();
+          
+          // Continuous precise collision detection
+          if (
+            iRect.left < cRect.right - 10 &&  
+            iRect.right > cRect.left + 10 && 
+            iRect.bottom > cRect.top + 10 && 
+            iRect.top < cRect.bottom - 10
+          ) {
+            // CAUGHT!
+            gameScore++; 
+            scoreDisplay.textContent = gameScore;
+            
+            // Visual Popup Effect for +1
+            const popup = document.createElement('div');
+            popup.textContent = '+1';
+            popup.className = 'score-popup';
+            popup.style.left = (iRect.left - areaRect.left + 10) + 'px';
+            popup.style.top = (iRect.top - areaRect.top - 10) + 'px';
+            gameArea.appendChild(popup);
+            setTimeout(() => popup.remove(), 800);
+            
+            // Catcher Bounce Animation
+            catcher.classList.remove('catcher-catch-anim');
+            void catcher.offsetWidth; // trigger reflow to restart animation
+            catcher.classList.add('catcher-catch-anim');
+            
+            // Remove caught item
+            item.remove();
+            activeItems.splice(i, 1);
+          }
+        }
+        
+        collisionLoopId = requestAnimationFrame(checkCollisions);
+      }
+      // ------------------------------------
+
+      const candlesDiv = document.getElementById('candles');
+      for (let i = 0; i < 5; i++) { 
+        const c = document.createElement('div'); 
+        c.className = 'candle'; 
+        candlesDiv.appendChild(c); 
+      }
+      document.getElementById('blow-btn').addEventListener('click', (e) => {
+        e.stopPropagation();
+        document.querySelectorAll('.candle').forEach(c => c.classList.add('blown'));
+        setTimeout(spawnConfetti, 400);
+      });
+
+      function spawnConfetti() {
+        const colors = ['#ffffff', '#e6f1ff', '#ccd6f6', '#87ceeb', '#112240'];
+        for (let i = 0; i < 40; i++) {
+          const c = document.createElement('div');
+          c.className = 'confetti-piece';
+          c.style.left = Math.random() * 100 + '%';
+          c.style.background = colors[Math.floor(Math.random() * colors.length)];
+          c.style.animationDelay = Math.random() * 2 + 's';
+          c.style.borderRadius = Math.random() > 0.5 ? '50%' : '2px';
+          document.body.appendChild(c);
+          setTimeout(() => c.remove(), 4000);
+        }
+      }
+
+      lucide.createIcons();
+    })();
+  </script>
+</body>
+</html>
